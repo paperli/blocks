@@ -195,9 +195,14 @@ export class Game {
   }
 
   private finishPlacement(surface: ChosenSurface): void {
-    this.build.placeOnSurface(surface, this.features.anchors);
+    // Lift the build slightly so tracking jitter can't sink it into the table.
+    const lifted: ChosenSurface = {
+      ...surface,
+      position: surface.position.add(new Vector3(0, SURFACE.PLACEMENT_LIFT, 0)),
+    };
+    this.build.placeOnSurface(lifted, this.features.anchors);
     // Ground collider sits at the baseplate top so dropped bricks rest on it.
-    this.physics.setGround(surface.position.y + BASEPLATE_TOP_Y);
+    this.physics.setGround(lifted.position.y + BASEPLATE_TOP_Y);
     this.bank.layout();
     this.surfaces?.setOutlinesVisible(false);
     this.hud.log("Ready — pinch a brick from the bank to start building.");

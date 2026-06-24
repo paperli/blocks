@@ -37,6 +37,11 @@ export const SURFACE = {
   MIN_AREA: 0.06,
   /** How far in front of the user (m) to place the build if we must guess. */
   FALLBACK_DISTANCE: 0.5,
+  /**
+   * Lift the baseplate slightly above the detected surface so plane-tracking
+   * jitter can't sink it below the real table.
+   */
+  PLACEMENT_LIFT: 0.015,
 } as const;
 
 export const INTERACTION = {

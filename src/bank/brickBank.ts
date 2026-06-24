@@ -86,10 +86,13 @@ export class BrickBank {
     return best;
   }
 
-  /** Spawn a fresh brick from a slot at the slot's world position. */
+  /** Spawn a fresh brick from a slot, matching the slot's current spin angle. */
   spawn(slot: BankSlot): Brick {
     const brick = new Brick(this.scene, this.physics, slot.def, slot.colorName);
-    brick.setWorldPose(slot.display.getAbsolutePosition(), Quaternion.Identity());
+    brick.setWorldPose(
+      slot.display.getAbsolutePosition(),
+      slot.display.absoluteRotationQuaternion,
+    );
     return brick;
   }
 

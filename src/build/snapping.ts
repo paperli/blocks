@@ -80,9 +80,12 @@ export class SnapSystem {
       return;
     }
     this.ghost.setEnabled(true);
+    // effW/effD already encode the quarter rotation in grid-aligned space, so
+    // the ghost box is axis-aligned (identity) — applying localRot too would
+    // double-rotate and desync the preview from the held brick at 90°/270°.
     this.ghost.scaling.set(cand.effW * UNITS.STUD_PITCH, BRICK_HEIGHT, cand.effD * UNITS.STUD_PITCH);
     this.ghost.position.copyFrom(cand.localPos);
-    this.ghost.rotationQuaternion = cand.localRot.clone();
+    this.ghost.rotationQuaternion = Quaternion.Identity();
   }
 
   private heldBrickHand(): { hand: Handedness; brick: Brick } | null {

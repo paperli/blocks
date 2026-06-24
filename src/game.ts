@@ -10,7 +10,6 @@ import { BuildRoot } from "./build/buildRoot";
 import { BrickBank } from "./bank/brickBank";
 import { GrabManager } from "./interaction/grab";
 import { makeThrowResolver } from "./interaction/throw";
-import { BuildManipulator } from "./interaction/buildManip";
 import { SnapSystem } from "./build/snapping";
 import { PhysicsWorld } from "./physics/havok";
 import { BASEPLATE_TOP_Y, placementGeometry, type BrickPlacement } from "./build/grid";
@@ -35,7 +34,6 @@ export class Game {
   bank!: BrickBank;
   grab!: GrabManager;
   snap!: SnapSystem;
-  manip!: BuildManipulator;
   menu!: PalmMenu;
   feedback!: Feedback;
   readonly commands = new CommandStack();
@@ -82,8 +80,10 @@ export class Game {
       }),
     );
 
-    // Two-hand scale + one-hand drag of the whole build.
-    this.manip = new BuildManipulator(this.scene, this.input, this.grab, this.build, this.hud);
+    // NOTE: whole-build move/scale (BuildManipulator) is intentionally disabled.
+    // Scaling broke snapping (held bricks stay at 1x while the build scaled), and
+    // the one-hand drag conflicted with pinch-to-grab. The build stays anchored
+    // on the desk. Re-enable later once held bricks inherit the build scale.
 
     this.menu = new PalmMenu(this.scene, this.input, {
       undo: () => this.commands.undo(),

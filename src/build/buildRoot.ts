@@ -45,6 +45,8 @@ export class BuildRoot {
     );
     plate.parent = this.node;
     plate.position.y = BASEPLATE.THICKNESS / 2;
+    // The baseplate is fixed to the desk — never grabbable/movable.
+    plate.isPickable = false;
 
     const mat = new StandardMaterial("baseplateMat", this.scene);
     mat.diffuseColor = new Color3(0.18, 0.42, 0.24);
